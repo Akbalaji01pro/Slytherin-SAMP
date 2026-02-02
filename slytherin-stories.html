@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Serpent's Chronicles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --slytherin-green: #1a472a;
+            --slytherin-accent: #2a623d;
+            --slytherin-silver: #aaaaaa;
+            --slytherin-light: #5d8a66;
+            --dark-bg: #0a0f0d;
+            --text-primary: #e8f4ea;
+            --text-secondary: #b8d4bd;
+            --glow: #3d9970;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(26, 71, 42, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(42, 98, 61, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0f0d 0%, #121a15 100%);
+            z-index: -2;
+        }
+
+        /* Serpent pattern overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(61, 153, 112, 0.02) 2px, rgba(61, 153, 112, 0.02) 4px);
+            z-index: -1;
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(4px); }
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+        }
+
+        .site-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--slytherin-silver), var(--glow), var(--slytherin-silver));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            animation: shimmer 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(61, 153, 112, 0.3);
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .site-subtitle {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .serpent-divider {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--glow), transparent);
+            margin: 2rem auto;
+            position: relative;
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .serpent-divider::before,
+        .serpent-divider::after {
+            content: '◆';
+            position: absolute;
+            color: var(--glow);
+            font-size: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .serpent-divider::before { left: -15px; }
+        .serpent-divider::after { right: -15px; }
+
+        @keyframes glow-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(61, 153, 112, 0.5);
+                opacity: 1;
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(61, 153, 112, 0.8);
+                opacity: 0.8;
+            }
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro-text {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        /* Story grid */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .story-card {
+            background: linear-gradient(135deg, rgba(26, 71, 42, 0.3), rgba(42, 98, 61, 0.2));
+            border: 1px solid rgba(61, 153, 112, 0.3);
+            border-radius: 0;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(61, 153, 112, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .story-card:hover::before {
+            left: 100%;
+        }
+
+        .story-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--glow);
+            box-shadow: 
+                0 10px 40px rgba(61, 153, 112, 0.2),
+                inset 0 0 30px rgba(61, 153, 112, 0.05);
+        }
+
+        .story-number {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--slytherin-light);
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .story-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .story-excerpt {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--slytherin-light);
+        }
+
+        .read-btn {
+            background: linear-gradient(135deg, var(--slytherin-accent), var(--slytherin-green));
+            color: var(--text-primary);
+            border: 1px solid var(--glow);
+            padding: 0.8rem 2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .read-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(61, 153, 112, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .read-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .read-btn:hover {
+            box-shadow: 0 0 20px rgba(61, 153, 112, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .read-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Modal for reading stories */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(26, 71, 42, 0.9), rgba(18, 26, 21, 0.95));
+            border: 2px solid var(--glow);
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            padding: 3rem;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(61, 153, 112, 0.3);
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--glow);
+            transform: rotate(90deg);
+        }
+
+        .slides-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            margin-top: 2rem;
+        }
+
+        .slides-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(61, 153, 112, 0.3);
+        }
+
+        /* Add story section */
+        .add-story-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(42, 98, 61, 0.2), rgba(26, 71, 42, 0.3));
+            border: 2px dashed rgba(61, 153, 112, 0.4);
+            text-align: center;
+        }
+
+        .add-story-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--glow);
+        }
+
+        .add-story-section p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            max-width: 600px;
+            margin: 1rem auto;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--slytherin-light);
+            margin-bottom: 0.5rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(10, 15, 13, 0.6);
+            border: 1px solid rgba(61, 153, 112, 0.3);
+            color: var(--text-primary);
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--glow);
+            box-shadow: 0 0 10px rgba(61, 153, 112, 0.2);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(61, 153, 112, 0.2);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--slytherin-accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--glow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            header {
+                padding: 3rem 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="site-title">The Serpent's Chronicles</h1>
+        <p class="site-subtitle">Tales of Ambition & Cunning</p>
+        <div class="serpent-divider"></div>
+    </header>
+
+    <main class="container">
+        <p class="intro-text">
+            Welcome to the archives of forbidden tales and untold legends. Each story here is crafted with precision, 
+            cunning, and a touch of darkness. Dive into narratives that challenge convention and embrace the shadows.
+        </p>
+
+        <div class="stories-grid" id="storiesGrid">
+            <!-- Example story card - you'll replace these with your own -->
+            <div class="story-card" onclick="openStory('https://docs.google.com/presentation/d/e/YOUR_SLIDE_ID/embed', 'The First Chronicle')">
+                <div class="story-number">STORY 001</div>
+                <h3 class="story-title">The First Chronicle</h3>
+                <p class="story-excerpt">
+                    In the depths of the ancient library, a secret waits to be discovered. 
+                    Those who seek power must first understand sacrifice...
+                </p>
+                <div class="story-meta">
+                    <span>📖 Chapter 1</span>
+                    <button class="read-btn"><span>Read Story →</span></button>
+                </div>
+            </div>
+
+            <div class="story-card" onclick="openStory('https://docs.google.com/presentation/d/e/YOUR_SLIDE_ID_2/embed', 'Shadows of Legacy')">
+                <div class="story-number">STORY 002</div>
+                <h3 class="story-title">Shadows of Legacy</h3>
+                <p class="story-excerpt">
+                    Every great wizard leaves behind more than just spells. Some legacies are meant to be hidden, 
+                    buried beneath layers of time and forgotten magic...
+                </p>
+                <div class="story-meta">
+                    <span>📖 Chapter 2</span>
+                    <button class="read-btn"><span>Read Story →</span></button>
+                </div>
+            </div>
+
+            <div class="story-card" onclick="openStory('https://docs.google.com/presentation/d/e/YOUR_SLIDE_ID_3/embed', 'The Emerald Covenant')">
+                <div class="story-number">STORY 003</div>
+                <h3 class="story-title">The Emerald Covenant</h3>
+                <p class="story-excerpt">
+                    A pact made in darkness, sealed with blood and ambition. When loyalty is tested, 
+                    only the cunning survive...
+                </p>
+                <div class="story-meta">
+                    <span>📖 Chapter 3</span>
+                    <button class="read-btn"><span>Read Story →</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-story-section">
+            <h2>✨ Add Your Next Chronicle</h2>
+            <p>Publish your story on Google Slides and add it to your collection</p>
+            
+            <div class="input-group">
+                <label>Story Number</label>
+                <input type="text" id="storyNumber" placeholder="e.g., 004">
+            </div>
+            
+            <div class="input-group">
+                <label>Story Title</label>
+                <input type="text" id="storyTitle" placeholder="e.g., The Midnight Prophecy">
+            </div>
+            
+            <div class="input-group">
+                <label>Story Excerpt</label>
+                <textarea id="storyExcerpt" placeholder="A brief, intriguing description of your story..."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label>Google Slides Embed URL</label>
+                <input type="text" id="slideUrl" placeholder="https://docs.google.com/presentation/d/e/YOUR_SLIDE_ID/embed">
+            </div>
+            
+            <button class="read-btn" onclick="addNewStory()"><span>+ Add Story</span></button>
+        </div>
+    </main>
+
+    <footer>
+        <p>The Serpent's Chronicles © 2026 | Crafted in the depths of ambition</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.7;">
+            "Slytherins are ambitious, cunning, and resourceful" - The Sorting Hat
+        </p>
+    </footer>
+
+    <!-- Modal for viewing stories -->
+    <div class="modal" id="storyModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <h2 id="modalTitle" style="font-family: 'Cinzel', serif; color: var(--glow); margin-bottom: 1rem;"></h2>
+            <div class="slides-container">
+                <iframe id="slideFrame" src="" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openStory(slideUrl, title) {
+            const modal = document.getElementById('storyModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const slideFrame = document.getElementById('slideFrame');
+            
+            modalTitle.textContent = title;
+            slideFrame.src = slideUrl;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('storyModal');
+            const slideFrame = document.getElementById('slideFrame');
+            
+            modal.classList.remove('active');
+            slideFrame.src = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('storyModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Add new story function
+        function addNewStory() {
+            const number = document.getElementById('storyNumber').value;
+            const title = document.getElementById('storyTitle').value;
+            const excerpt = document.getElementById('storyExcerpt').value;
+            const url = document.getElementById('slideUrl').value;
+
+            if (!number || !title || !excerpt || !url) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const storiesGrid = document.getElementById('storiesGrid');
+            
+            const newCard = document.createElement('div');
+            newCard.className = 'story-card';
+            newCard.onclick = function() { openStory(url, title); };
+            
+            newCard.innerHTML = `
+                <div class="story-number">STORY ${number.padStart(3, '0')}</div>
+                <h3 class="story-title">${title}</h3>
+                <p class="story-excerpt">${excerpt}</p>
+                <div class="story-meta">
+                    <span>📖 New Chapter</span>
+                    <button class="read-btn"><span>Read Story →</span></button>
+                </div>
+            `;
+            
+            storiesGrid.appendChild(newCard);
+            
+            // Clear form
+            document.getElementById('storyNumber').value = '';
+            document.getElementById('storyTitle').value = '';
+            document.getElementById('storyExcerpt').value = '';
+            document.getElementById('slideUrl').value = '';
+            
+            // Scroll to new story
+            newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Escape key to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
